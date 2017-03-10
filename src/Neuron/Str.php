@@ -12,7 +12,7 @@ class Str
 
     private $caseName = '';
 
-    const caseMatchers = [
+    private static $caseMatchers = [
         'plain' => '/[^\s]+\s([^\s]+\s)+[^\s]+/',
         'kebab' => '/^([A-Za-z0-9]+\-)+[A-Za-z0-9]+$/',
         'snake' => '/^([A-Za-z0-9]+_)+[A-Za-z0-9]+$/',
@@ -30,22 +30,22 @@ class Str
     {
         $parts = [];
 
-        if (preg_match(self::caseMatchers['plain'], $string)) {
+        if (preg_match(self::$caseMatchers['plain'], $string)) {
             $parts = explode(' ', $string);
             $caseName = 'plain';
         }
 
-        if (preg_match(self::caseMatchers['kebab'], $string)) {
+        if (preg_match(self::$caseMatchers['kebab'], $string)) {
             $parts = explode('-', $string);
             $caseName = 'kebab';
         }
 
-        if (preg_match(self::caseMatchers['snake'], $string)) {
+        if (preg_match(self::$caseMatchers['snake'], $string)) {
             $parts = explode('_', $string);
             $caseName = 'snake';
         }
 
-        if (preg_match(self::caseMatchers['camel'], $string)) {
+        if (preg_match(self::$caseMatchers['camel'], $string)) {
             $parts = preg_split('/(?=[A-Z])/', $string);
             $caseName = 'camel';
         }
