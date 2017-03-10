@@ -6,9 +6,11 @@ use Neuron\Exceptions\InputCaseNotRecognisedException;
 
 class Str
 {
-    private $string;
+    private $string = '';
 
     private $words = [];
+
+    private $caseName = '';
 
     const caseMatchers = [
         'plain' => '/[^\s]+\s([^\s]+\s)+[^\s]+/',
@@ -17,9 +19,10 @@ class Str
         'camel' => '/[A-Z]?[a-z0-9]+[A-Z][a-z0-9]+([A-Z][a-z0-9])/'
     ];
 
-    public function __construct($string, $words)
+    public function __construct($string, $caseName, $words)
     {
         $this->string = $string;
+        $this->caseName = $caseName;
         $this->words = $words;
     }
 
@@ -27,22 +30,30 @@ class Str
     {
         $parts = [];
 
-        if (preg_match(self::caseMatchers['plain'], $string))
+        if (preg_match(self::caseMatchers['plain'], $string)) {
             $parts = explode(' ', $string);
+            $caseName = 'plain';
+        }
 
-        if (preg_match(self::caseMatchers['kebab'], $string))
+        if (preg_match(self::caseMatchers['kebab'], $string)) {
             $parts = explode('-', $string);
+            $caseName = 'kebab';
+        }
 
-        if (preg_match(self::caseMatchers['snake'], $string))
+        if (preg_match(self::caseMatchers['snake'], $string)) {
             $parts = explode('_', $string);
+            $caseName = 'snake';
+        }
 
-        if (preg_match(self::caseMatchers['camel'], $string))
+        if (preg_match(self::caseMatchers['camel'], $string)) {
             $parts = preg_split('/(?=[A-Z])/', $string);
+            $caseName = 'camel';
+        }
 
         if (empty($parts))
             throw new InputCaseNotRecognisedException;
 
-        return new self($string, array_map(function ($item) {
+        return new self($string, $caseName, array_map(function ($item) {
             return strtolower($item);
         }, $parts));
     }
@@ -55,5 +66,10 @@ class Str
     public function getWords()
     {
         return $this->words;
+    }
+
+    public function getCaseName()
+    {
+        return $this->caseName;
     }
 }

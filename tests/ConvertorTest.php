@@ -16,6 +16,7 @@ class ConvertorTest extends TestCase
         $return = Str::convert('Example Test String');
 
         $this->assertInstanceOf(Str::class, $return);
+        $this->assertEquals('plain', $return->getCaseName());
         $this->assertEquals('Example Test String', $return->getString());
         $this->assertEquals(['example', 'test', 'string'], $return->getWords());
     }
@@ -28,6 +29,7 @@ class ConvertorTest extends TestCase
         $return = Str::convert('example-test-string');
 
         $this->assertInstanceOf(Str::class, $return);
+        $this->assertEquals('kebab', $return->getCaseName());
         $this->assertEquals('example-test-string', $return->getString());
         $this->assertEquals(['example', 'test', 'string'], $return->getWords());
     }
@@ -40,6 +42,7 @@ class ConvertorTest extends TestCase
         $return = Str::convert('example_test_string');
 
         $this->assertInstanceOf(Str::class, $return);
+        $this->assertEquals('snake', $return->getCaseName());
         $this->assertEquals('example_test_string', $return->getString());
         $this->assertEquals(['example', 'test', 'string'], $return->getWords());
     }
@@ -52,6 +55,7 @@ class ConvertorTest extends TestCase
         $return = Str::convert('exampleTestString');
 
         $this->assertInstanceOf(Str::class, $return);
+        $this->assertEquals('camel', $return->getCaseName());
         $this->assertEquals('exampleTestString', $return->getString());
         $this->assertEquals(['example', 'test', 'string'], $return->getWords());
     }
