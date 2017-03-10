@@ -73,4 +73,44 @@ class ConvertorTest extends TestCase
 
         $this->fail('No exception was thrown when input case was not recognised');
     }
+
+    /**
+     * @test
+     */
+    function can_convert_to_plain_sentence()
+    {
+        $this->assertEquals('Example test string', Str::convert('example_test_string')->toPlainSentence());
+    }
+
+    /**
+     * @test
+     */
+    function can_convert_to_kebab_case()
+    {
+        $this->assertEquals('example-test-string', Str::convert('example_test_string')->toKebabCase());
+    }
+
+    /**
+     * @test
+     */
+    function can_convert_to_snake_case()
+    {
+        $this->assertEquals('example_test_string', Str::convert('example-test-string')->toSnakeCase());
+    }
+
+    /**
+     * @test
+     */
+    function can_convert_to_camel_case_with_lowercase_first_letter()
+    {
+        $this->assertEquals('exampleTestString', Str::convert('example-test-string')->toCamelCase());
+    }
+
+    /**
+     * @test
+     */
+    function can_convert_to_camel_case_with_uppercase_first_letter()
+    {
+        $this->assertEquals('ExampleTestString', Str::convert('example-test-string')->toCamelCaseUpperFirstLetter());
+    }
 }
